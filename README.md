@@ -52,12 +52,12 @@ python run.py dl --cookie cookie.txt -o "path/to/downloads"
 
 ### Download Quizzes
 ```bash
-python run.py dl-quiz --cookie cookie.txt
+python run.py dl-quiz --cookie cookie.txt -o "path/to/downloads"
 ```
 
 To save each quiz in a separate file:
 ```bash
-python run.py dl-quiz --cookie cookie.txt --sep
+python run.py dl-quiz --cookie cookie.txt -o "path/to/downloads" --sep
 ```
 
 ### Options
