@@ -120,6 +120,37 @@ def download_video(url: str, output_path: Path, cookie: str, quality: str) -> No
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download(url)
 
+    # Post-download rename logic to fix filenames like "Name.fhls-fastly_skyfire-363.mp4"
+    output_name = output_path.name
+    parent_dir = output_path.parent
+    
+    for file_path in parent_dir.iterdir():
+        if file_path.is_file() and file_path.name.startswith(f"{output_name}."):
+            # Check if it's already in the correct format "Name.ext"
+            # file_path.name is "Name.ext" or "Name.junk.ext"
+            # We want to keep "Name.ext" and rename "Name.junk.ext" -> "Name.ext"
+            
+            # Using rsplit to isolate the extension
+            parts = file_path.name[len(output_name):].split('.')
+            # parts will be ['', 'ext'] for "Name.ext"
+            # parts will be ['', 'junk', 'ext'] for "Name.junk.ext"
+            
+            # Valid case: simple extension
+            if len(parts) == 2 and parts[0] == "":
+                continue
+
+            # Invalid case: has extra parts (junk)
+            if len(parts) > 2:
+                # Construct new name
+                extension = parts[-1] 
+                new_file_path = parent_dir / f"{output_name}.{extension}"
+                
+                logger.info(f"Renaming irregular file {file_path.name} to {new_file_path.name}")
+                try:
+                    file_path.rename(new_file_path)
+                except OSError as e:
+                    logger.warning(f"Failed to rename file {file_path.name}: {e}")
+
 
 def is_normal_content(content: str) -> bool:
     """

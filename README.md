@@ -45,14 +45,25 @@ To download a specific course by URL:
 python run.py dl https://learn.kodekloud.com/courses/example-course --cookie cookie.txt
 ```
 
+To specify an output directory:
+```bash
+python run.py dl --cookie cookie.txt -o "path/to/downloads"
+```
+
 ### Download Quizzes
 ```bash
 python run.py dl-quiz --cookie cookie.txt
 ```
 
+To save each quiz in a separate file:
+```bash
+python run.py dl-quiz --cookie cookie.txt --sep
+```
+
 ### Options
 - `--quality <QUALITY>`: Set video quality (e.g., `720p`).
-- `--output-dir <PATH>`: Set download directory.
+- `--output-dir` / `-o` `<PATH>`: Set download directory.
+- `--sep`: Write quizzes to separate Markdown files.
 - `--max-duplicate-count <INT>`: strict checking for duplicates.
 
 ## Disclaimer
