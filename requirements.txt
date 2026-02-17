@@ -1,0 +1,8 @@
+requests
+click
+validators
+yt-dlp
+markdownify
+beautifulsoup4
+prettytable
+pydantic
